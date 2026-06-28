@@ -1,0 +1,81 @@
+services:
+  web:
+    build:
+      context: ./platform-app2
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: redis://redis:6379
+      SHOPIFY_API_KEY: ${SHOPIFY_API_KEY}
+      SHOPIFY_API_SECRET: ${SHOPIFY_API_SECRET}
+      SHOPIFY_APP_URL: ${SHOPIFY_APP_URL}
+      SCOPES: ${SCOPES}
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./platform-app2
+      dockerfile: Dockerfile.worker
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: redis://redis:6379
+      SHOPIFY_API_KEY: ${SHOPIFY_API_KEY}
+      SHOPIFY_API_SECRET: ${SHOPIFY_API_SECRET}
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  cron:
+    build:
+      context: ./platform-app2
+      dockerfile: Dockerfile.cron
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app2_db}
+      POSTGRES_USER: ${POSTGRES_USER:-app2_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app2_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
