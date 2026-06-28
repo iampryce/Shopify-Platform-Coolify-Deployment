@@ -7,12 +7,7 @@ services:
       - "${PORT:-3000}:3000"
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: redis://redis:6379
-      SHOPIFY_API_KEY: ${SHOPIFY_API_KEY}
-      SHOPIFY_API_SECRET: ${SHOPIFY_API_SECRET}
-      SHOPIFY_APP_URL: ${SHOPIFY_APP_URL}
-      SCOPES: ${SCOPES}
     depends_on:
       database:
         condition: service_healthy
@@ -26,10 +21,7 @@ services:
       dockerfile: Dockerfile.worker
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: redis://redis:6379
-      SHOPIFY_API_KEY: ${SHOPIFY_API_KEY}
-      SHOPIFY_API_SECRET: ${SHOPIFY_API_SECRET}
     depends_on:
       database:
         condition: service_healthy
@@ -43,7 +35,6 @@ services:
       dockerfile: Dockerfile.cron
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: redis://redis:6379
     depends_on:
       redis:
