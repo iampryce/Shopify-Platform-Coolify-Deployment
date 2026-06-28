@@ -3,6 +3,8 @@ services:
     build:
       context: ./platform-app2
       dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
     environment:
       NODE_ENV: production
       REDIS_URL: redis://redis:6379
