@@ -43,14 +43,10 @@ services:
 
   database:
     image: postgres:16-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app1_db}
-      POSTGRES_USER: ${POSTGRES_USER:-app1_user}
-      POSTGRES_PASSWORD: Admin2026
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app1_user}"]
+      test: ["CMD-SHELL", "pg_isready -U app1_user"]
       interval: 10s
       timeout: 5s
       retries: 5
