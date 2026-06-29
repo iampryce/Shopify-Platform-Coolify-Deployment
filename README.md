@@ -195,40 +195,8 @@ Install Coolify on the provisioned EC2 instance.
 
 ---
 
-## Phase 3: Prepare Application Repository
 
-Structure the GitHub repository for Coolify deployment with three independent application stacks.
-
-### Repository Structure
-
-```text
-Shopify-Platform-Coolify-Deployment/
-├── shopify-app1/
-│   ├── docker-compose.yaml
-│   └── platform-app1/
-│       ├── Dockerfile
-│       ├── Dockerfile.worker
-│       ├── Dockerfile.cron
-│       ├── app/
-│       │   ├── shopify.server.js
-│       │   ├── redis.server.js
-│       │   ├── queue.server.js
-│       │   ├── worker.js
-│       │   └── cron.js
-│       └── prisma/
-├── shopify-app2/
-│   ├── docker-compose.yaml
-│   └── platform-app2/
-└── shopify-app3/
-    ├── docker-compose.yaml
-    └── platform-app3/
-```
-
-Each app's `docker-compose.yaml` defines the full 5-service stack. See `shopify-app1/docker-compose.yaml` in the repository.
-
----
-
-## Phase 4: Deploy Shopify Applications
+## Phase 3: Deploy Shopify Applications
 
 Create three Coolify projects and deploy each application stack.
 
@@ -248,7 +216,7 @@ Create three Coolify projects and deploy each application stack.
 
 ---
 
-## Phase 5: Validate Live Applications
+## Phase 4: Validate Live Applications
 
 Confirm all three applications are accessible with valid SSL certificates.
 
@@ -271,7 +239,7 @@ Confirm all three applications are accessible with valid SSL certificates.
 
 ---
 
-## Phase 6: Deploy pgAdmin
+## Phase 5: Deploy pgAdmin
 
 Deploy pgAdmin for centralised database administration across all three application databases.
 
@@ -287,7 +255,7 @@ Deploy pgAdmin for centralised database administration across all three applicat
 
 ---
 
-## Phase 7: Configure Automated Backups
+## Phase 6: Configure Automated Backups
 
 Automate daily PostgreSQL backups to AWS S3 using a GitHub Actions scheduled workflow.
 
@@ -307,7 +275,7 @@ The backup workflow is defined in `.github/workflows/backup.yaml`. It runs daily
 
 ---
 
-## Phase 8: Platform Validation
+## Phase 7: Platform Validation
 
 Validate all platform services end-to-end.
 
@@ -325,17 +293,6 @@ Validate all platform services end-to-end.
 
 ![All services running — platform validation](screenshots/validation.png)
 
----
-
-# Future Enhancements
-
-* Monitoring with Prometheus and Grafana
-* Secrets management with HashiCorp Vault
-* Blue/green deployments
-* Zero-downtime deployments with health check configuration
-* Centralised log aggregation
-* Redis persistence configuration
-* BullMQ job retry and dead-letter queue configuration
 
 ---
 
