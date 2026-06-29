@@ -242,12 +242,6 @@ The backup workflow is defined in `.github/workflows/backup.yaml`. It runs daily
 ![GitHub Actions backup workflow successful](screenshots/github-actions-backup.png)
 ![AWS S3 backup folders](screenshots/s3-backups.png)
 
----
-
-## Phase 7: Platform Validation
-
-
----
 
 # Author
 
