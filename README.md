@@ -33,41 +33,10 @@ The platform deploys directly from GitHub without an intermediate container regi
 
 # Architecture
 
-![Shopify platform deployment architecture using Coolify, Docker, Traefik, PostgreSQL, Redis, and AWS EC2](architecture.png)
+
 
 ---
 
-# Application Stack Per Project
-
-Each Coolify project deploys five independent services:
-
-```text
-Coolify Project: Shopify App 1
-├── web      — React Router v7 Shopify application
-├── worker   — BullMQ background job processor
-├── cron     — node-cron scheduler (queues jobs to Redis)
-├── database — PostgreSQL 16
-└── redis    — Redis 7
-
-Coolify Project: Shopify App 2
-├── web
-├── worker
-├── cron
-├── database
-└── redis
-
-Coolify Project: Shopify App 3
-├── web
-├── worker
-├── cron
-├── database
-└── redis
-
-Coolify Project: Platform Services
-└── pgAdmin
-```
-
----
 
 # Deployment Workflow
 
@@ -210,10 +179,10 @@ Create three Coolify projects and deploy each application stack.
 * Deploy all three projects
 * Verify all 15 containers are running
 
-![Coolify projects dashboard](screenshots/coolify-projects.png)
-![App 1 services running in Coolify](screenshots/coolify-app1-running.png)
-![All containers running on EC2](screenshots/coolify-all-containers.png)
 
+
+![All containers running on EC2](screenshots/coolify-all-containers.png)
+![alt text](all-containers.png)
 ---
 
 ## Phase 4: Validate Live Applications
@@ -235,7 +204,7 @@ Confirm all three applications are accessible with valid SSL certificates.
 * `https://pgadmin.coolify.rivetrecords.online` — pgAdmin
 * `https://coolify.rivetrecords.online` — Coolify Dashboard
 
-![All three apps live in browser](screenshots/apps-live.png)
+![All three apps live in browser](screenshots/apps-live.mp4)
 
 ---
 
@@ -276,22 +245,6 @@ The backup workflow is defined in `.github/workflows/backup.yaml`. It runs daily
 ---
 
 ## Phase 7: Platform Validation
-
-Validate all platform services end-to-end.
-
-### Screenshots
-
-* AWS EC2 instance control panel
-* Coolify dashboard — all projects running
-* All three Coolify projects
-* All 15 application containers running
-* pgAdmin — all three databases connected
-* GitHub Actions — backup workflow successful
-* AWS S3 — three backup folders
-* All three apps live in browser with SSL
-* Coolify auto-deploy triggered by git push
-
-![All services running — platform validation](screenshots/validation.png)
 
 
 ---
