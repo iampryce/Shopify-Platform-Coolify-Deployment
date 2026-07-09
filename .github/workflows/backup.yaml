@@ -1,39 +1,39 @@
-name: Database Backup
+# name: Database Backup
 
-on:
-  schedule:
-    - cron: '0 2 * * *'
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: '0 2 * * *'
+#   workflow_dispatch:
 
-jobs:
-  backup:
-    name: Backup all databases to S3
-    runs-on: ubuntu-latest
+# jobs:
+#   backup:
+#     name: Backup all databases to S3
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: SSH into VPS and run backup
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-            BUCKET="rivetrecords.online"
+#     steps:
+#       - name: SSH into VPS and run backup
+#         uses: appleboy/ssh-action@v1.0.3
+#         with:
+#           host: ${{ secrets.VPS_HOST }}
+#           username: ${{ secrets.VPS_USER }}
+#           key: ${{ secrets.VPS_SSH_KEY }}
+#           script: |
+#             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+#             BUCKET="rivetrecords.online"
 
-            echo "Backing up app1_db..."
-            docker exec -e PGPASSWORD=Admin2026 database-f13u5it85csscyzxh2telq6g-194936034756 \
-              pg_dump -U app1_user app1_db | gzip | \
-              aws s3 cp - "s3://${BUCKET}/coolify-app1-database/backup_${TIMESTAMP}.sql.gz"
+#             echo "Backing up app1_db..."
+#             docker exec -e PGPASSWORD=Admin2026 database-f13u5it85csscyzxh2telq6g-194936034756 \
+#               pg_dump -U app1_user app1_db | gzip | \
+#               aws s3 cp - "s3://${BUCKET}/coolify-app1-database/backup_${TIMESTAMP}.sql.gz"
 
-            echo "Backing up app2_db..."
-            docker exec -e PGPASSWORD=Admin2026 database-smmbz1arou5ar5lxl020qtk5-221055801669 \
-              pg_dump -U app2_user app2_db | gzip | \
-              aws s3 cp - "s3://${BUCKET}/coolify-app2-database/backup_${TIMESTAMP}.sql.gz"
+#             echo "Backing up app2_db..."
+#             docker exec -e PGPASSWORD=Admin2026 database-smmbz1arou5ar5lxl020qtk5-221055801669 \
+#               pg_dump -U app2_user app2_db | gzip | \
+#               aws s3 cp - "s3://${BUCKET}/coolify-app2-database/backup_${TIMESTAMP}.sql.gz"
 
-            echo "Backing up app3_db..."
-            docker exec -e PGPASSWORD=Admin2026 database-zo4kn0cxkkyanhydhvqi4daa-223259887794 \
-              pg_dump -U app3_user app3_db | gzip | \
-              aws s3 cp - "s3://${BUCKET}/coolify-app3-database/backup_${TIMESTAMP}.sql.gz"
+#             echo "Backing up app3_db..."
+#             docker exec -e PGPASSWORD=Admin2026 database-zo4kn0cxkkyanhydhvqi4daa-223259887794 \
+#               pg_dump -U app3_user app3_db | gzip | \
+#               aws s3 cp - "s3://${BUCKET}/coolify-app3-database/backup_${TIMESTAMP}.sql.gz"
 
-            echo "All backups complete - ${TIMESTAMP}"
+#             echo "All backups complete - ${TIMESTAMP}"
